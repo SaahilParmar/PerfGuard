@@ -38,7 +38,8 @@ class PerfGuardUser(HttpUser):
             "name": "PerfGuard Bot",
             "job": "performance-tester"
         }
-        self.client.post(ENDPOINTS["create_user"], json=payload, name="/api/users [POST]")
+        # reqres.in expects name and job for POST /api/users
+        self.client.post(ENDPOINTS["create_user"], json=payload, name="/api/users")
 
     def on_start(self):
         # Optional: Called when a simulated user starts

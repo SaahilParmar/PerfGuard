@@ -1,8 +1,8 @@
 # config/config.yaml
 
 host: "https://reqres.in"
-users: 10                 # Number of concurrent users
-spawn_rate: 2             # How fast users are spawned (users per second)
+users: 3                  # Number of concurrent users (reduced for demo API)
+spawn_rate: 1             # How fast users are spawned (users per second, reduced)
 run_time: "1m"            # Total test duration (e.g., 30s, 1m, 5m)
 
 endpoints:
