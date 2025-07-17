@@ -10,9 +10,12 @@ try:
 except KeyError as e:
     raise KeyError(f"Missing required config key: {e}")
 
-# Convert endpoints list to a dict for easy access by name and method
+# Convert endpoints list to a dict for easy access by name and method, and ensure no trailing slashes
 def get_endpoint(endpoints, method, path_contains):
-    return next((ep["path"] for ep in endpoints if ep["method"] == method and path_contains in ep["path"]), None)
+    path = next((ep["path"] for ep in endpoints if ep["method"] == method and path_contains in ep["path"]), None)
+    if path and path.endswith("/"):
+        path = path.rstrip("/")
+    return path
 
 ENDPOINTS = {
     "user_list": get_endpoint(endpoints_list, "GET", "/api/users"),
@@ -38,8 +41,9 @@ class PerfGuardUser(HttpUser):
             "name": "PerfGuard Bot",
             "job": "performance-tester"
         }
+        headers = {"Content-Type": "application/json"}
         # reqres.in expects name and job for POST /api/users
-        self.client.post(ENDPOINTS["create_user"], json=payload, name="/api/users")
+        self.client.post(ENDPOINTS["create_user"], json=payload, headers=headers, name="/api/users")
 
     def on_start(self):
         # Optional: Called when a simulated user starts
