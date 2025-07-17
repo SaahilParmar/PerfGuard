@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Environments
+.venv/
+env/
+.venv.bak/
+env.bak/
+
+# Logs
+logs/
+*.log
+
+# Reports
+reports/html/
+reports/allure-results/
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Test Artifacts
+*.tmp
+.cache/
