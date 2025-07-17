@@ -1,10 +1,21 @@
 from locust import HttpUser, task, between
+
 from utils.config_loader import load_config
 
-# Load configuration values
+# Load configuration values with error handling and adapt to config.yaml structure
 config = load_config()
-BASE_URL = config["base_url"]
-ENDPOINTS = config["endpoints"]
+try:
+    BASE_URL = config.get("base_url") or config.get("host")
+    endpoints_list = config["endpoints"]
+except KeyError as e:
+    raise KeyError(f"Missing required config key: {e}")
+
+# Convert endpoints list to a dict for easy access by name
+ENDPOINTS = {
+    "user_list": next((ep["path"] for ep in endpoints_list if ep["method"] == "GET" and "/users" in ep["path"]), "/api/v1/users"),
+    "single_user": next((ep["path"] for ep in endpoints_list if ep["method"] == "DELETE" and "/users/2" in ep["path"]), "/api/v1/users/2"),
+    "create_user": next((ep["path"] for ep in endpoints_list if ep["method"] == "POST" and "/users" in ep["path"]), "/api/v1/users"),
+}
 
 class PerfGuardUser(HttpUser):
     wait_time = between(1, 3)  # Simulates user wait time between tasks
@@ -15,7 +26,7 @@ class PerfGuardUser(HttpUser):
 
     @task(1)
     def get_single_user(self):
-        self.client.get(f"{ENDPOINTS['single_user']}/2", name="/users/2")
+        self.client.get(ENDPOINTS["single_user"], name="/users/2")
 
     @task(1)
     def post_new_user(self):

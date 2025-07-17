@@ -38,17 +38,48 @@ source .venv/bin/activate   # or .venv\Scripts\activate on Windows
 
 pip install -r requirements.txt
 
+
 4. Update Config File
 
-Edit config/config.yaml to set:
+PerfGuard supports two configuration systems:
 
-host: https://example.com
+- `config/config.yaml`: Main configuration for Locust test runs (used by Python scripts).
+- `config.env`: Used by the shell script (`run_performance_test.sh`) for environment variable-based runs.
+
+**Recommended:** Use `config/config.yaml` for most workflows. Ensure the following structure:
+
+```yaml
+host: "https://example.com"
 users: 10
 spawn_rate: 2
-run_time: 1m
+run_time: "1m"
+endpoints:
+  - path: "/api/v1/users"
+    method: "GET"
+    weight: 3
+  - path: "/api/v1/users"
+    method: "POST"
+    weight: 2
+    payload:
+      name: "John Doe"
+      job: "Engineer"
+  - path: "/api/v1/users/2"
+    method: "DELETE"
+    weight: 1
+```
 
+If you use `run_performance_test.sh`, edit `config.env` accordingly:
 
----
+```env
+TARGET_HOST=https://your-api.com
+USERS=50
+SPAWN_RATE=10
+RUN_TIME=1m
+```
+
+**Note:** The Python Locust script expects `config/config.yaml` and will raise an error if required keys are missing. See Troubleshooting below for common issues.
+
+----
 
 🧪 Run Locust Tests
 
@@ -103,10 +134,13 @@ Runs unit tests
 
 ---
 
+
 📚 Troubleshooting
 
-Common issues and solutions are documented in:
+**Config KeyError:**
+If you see an error like `KeyError: 'base_url'` or `KeyError: 'endpoints'`, check that your `config/config.yaml` contains all required keys as shown above. The script now supports both `host` and `base_url` for flexibility.
 
+More issues and solutions are documented in:
 > troubleshooting_log.md
 
 
