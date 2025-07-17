@@ -1,0 +1,43 @@
+name: Performance Test CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  performance-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Load environment config
+        run: |
+          cp config.env .env
+          cat .env
+
+      - name: Run Locust performance test
+        run: |
+          chmod +x run_performance_test.sh
+          ./run_performance_test.sh
+
+      - name: Upload HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-report
+          path: reports/html/
