@@ -4,11 +4,5 @@ locust==2.25.0
 # YAML configuration file parsing
 pyyaml==6.0.1
 
-# For parsing and formatting timestamps
-python-dateutil==2.9.0.post0
-
-# Optional: if you log data to JSON and process it later
-pandas==2.2.2
-
-# Optional: rich logging or better output formatting
-rich==13.7.1
+# Testing framework
+pytest==8.4.1

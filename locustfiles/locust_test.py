@@ -29,7 +29,8 @@ class PerfGuardUser(HttpUser):
 
     @task(2)
     def get_user_list(self):
-        self.client.get(ENDPOINTS["user_list"], name="/api/users")
+        # Use /api/users?page=2 for reqres.in demo API
+        self.client.get(f"{ENDPOINTS['user_list']}?page=2", name="/api/users?page=2")
 
     @task(1)
     def get_single_user(self):
