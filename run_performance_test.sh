@@ -3,6 +3,7 @@
 # Load environment variables
 source config.env
 
+mkdir -p logs
 # Run Locust with specified parameters
 locust -f locustfiles/locust_test.py \
   --host="$TARGET_HOST" \
