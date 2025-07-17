@@ -4,7 +4,7 @@
 source config.env
 
 # Run Locust with specified parameters
-locust -f locust_test.py \
+locust -f locustfiles/locust_test.py \
   --host="$TARGET_HOST" \
   --users="$USERS" \
   --spawn-rate="$SPAWN_RATE" \
