@@ -1,22 +1,22 @@
 # config/config.yaml
 
-host: "https://example.com"
+host: "https://reqres.in"
 users: 10                 # Number of concurrent users
 spawn_rate: 2             # How fast users are spawned (users per second)
 run_time: "1m"            # Total test duration (e.g., 30s, 1m, 5m)
 
 endpoints:
-  - path: "/api/v1/users"
+  - path: "/api/users"
     method: "GET"
     weight: 3
 
-  - path: "/api/v1/users"
+  - path: "/api/users"
     method: "POST"
     weight: 2
     payload:
       name: "John Doe"
       job: "Engineer"
 
-  - path: "/api/v1/users/2"
-    method: "DELETE"
+  - path: "/api/users/2"
+    method: "GET"
     weight: 1
