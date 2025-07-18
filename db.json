@@ -1,8 +1,7 @@
 {
   "users": [
     { "id": 1, "name": "John Doe", "job": "developer" },
-    { "id": 2, "name": "Jane Smith", "job": "tester" },
-    { "id": 1717, "name": "PerfGuard Bot", "job": "performance-tester" }
+    { "id": 2, "name": "Jane Smith", "job": "tester" }
   ],
   "resources": [
     { "id": 2, "type": "server", "name": "Resource 2" },
