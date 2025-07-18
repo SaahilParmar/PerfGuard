@@ -26,6 +26,20 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install json-server
+        run: npm install -g json-server
+
+      - name: Start json-server
+        run: |
+          nohup json-server --watch db.json --port 3000 &
+          sleep 3
+
       - name: Load environment config
         run: |
           cp config.env .env
