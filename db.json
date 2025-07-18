@@ -1,10 +1,66 @@
 {
   "users": [
-    { "id": 1, "name": "John Doe", "job": "developer" },
-    { "id": 2, "name": "Jane Smith", "job": "tester" }
+    {
+      "id": "1",
+      "name": "John Doe",
+      "job": "developer"
+    },
+    {
+      "id": "2",
+      "name": "Jane Smith",
+      "job": "tester"
+    },
+    {
+      "id": "1905",
+      "name": "PerfGuard Bot",
+      "job": "performance-tester"
+    },
+    {
+      "id": "443f",
+      "name": "PerfGuard Bot",
+      "job": "performance-tester"
+    },
+    {
+      "id": "c1a7",
+      "name": "PerfGuard Bot",
+      "job": "performance-tester"
+    },
+    {
+      "id": "8da8",
+      "name": "PerfGuard Bot",
+      "job": "performance-tester"
+    },
+    {
+      "id": "682d",
+      "name": "PerfGuard Bot",
+      "job": "performance-tester"
+    },
+    {
+      "id": "40f2",
+      "name": "PerfGuard Bot",
+      "job": "performance-tester"
+    },
+    {
+      "id": "b141",
+      "name": "PerfGuard Bot",
+      "job": "performance-tester"
+    },
+    {
+      "id": "98ac",
+      "name": "PerfGuard Bot",
+      "job": "performance-tester"
+    }
   ],
   "resources": [
-    { "id": 2, "type": "server", "name": "Resource 2" },
-    { "id": 1, "type": "server", "name": "Resource 1" }
+    {
+      "id": "2",
+      "type": "server",
+      "name": "Resource 2"
+    },
+    {
+      "id": "1",
+      "type": "server",
+      "name": "Resource 1"
+    }
   ]
 }
