@@ -1,0 +1,38 @@
+name: Run Locust Performance Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  performance-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install json-server
+        run: npm install -g json-server
+
+      - name: Start json-server
+        run: |
+          nohup json-server --watch db.json --port 3000 &
+          sleep 3
+
+      - name: Run Locust tests
+        run: |
+          locust -f locustfiles/locust_test.py --headless --users 5 --spawn-rate 2 --run-time 30s --host http://localhost:3000
