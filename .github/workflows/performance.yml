@@ -40,7 +40,7 @@ jobs:
 
       - name: Start json-server
         run: |
-          nohup json-server --watch db.json --port 3000 &
+          nohup json-server --watch ${{ github.workspace }}/db.json --port 3000 &
           sleep 3
 
       - name: Load environment config
