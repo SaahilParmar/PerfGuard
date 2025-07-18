@@ -35,6 +35,9 @@ jobs:
       - name: Install json-server
         run: npm install -g json-server
 
+      - name: List files for debug
+        run: ls -l
+
       - name: Start json-server
         run: |
           nohup json-server --watch db.json --port 3000 &
