@@ -6,3 +6,9 @@ pyyaml==6.0.1
 
 # Testing framework
 pytest==8.4.1
+
+# HTTP library (used by Locust and for custom requests)
+requests==2.31.0
+
+# For HTML test reporting (optional, useful for CI/CD)
+pytest-html==4.1.1
