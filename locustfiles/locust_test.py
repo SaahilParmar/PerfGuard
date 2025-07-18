@@ -65,3 +65,31 @@ class PerfGuardUser(HttpUser):
     def on_stop(self):
         # Optional: Called when a simulated user stops
         pass
+
+    # --- Additional Test Coverage: Error and Edge Cases ---
+
+    @task(1)
+    def get_nonexistent_user(self):
+        # GET /users/9999 (should return 404)
+        self.client.get("/users/9999", headers=self.common_headers, name="/users/9999", catch_response=True)
+
+    @task(1)
+    def get_nonexistent_resource(self):
+        # GET /resources/9999 (should return 404)
+        self.client.get("/resources/9999", headers=self.common_headers, name="/resources/9999", catch_response=True)
+
+    @task(1)
+    def post_invalid_user(self):
+        # POST /users with invalid payload (should return 400)
+        invalid_payload = {"invalid_field": "no name or job"}
+        self.client.post("/users", json=invalid_payload, headers=self.common_headers, name="/users_invalid", catch_response=True)
+
+    @task(1)
+    def get_users_with_query(self):
+        # GET /users?page=2 (edge: query param, should return 200 or 404 if not supported)
+        self.client.get("/users?page=2", headers=self.common_headers, name="/users?page=2", catch_response=True)
+
+    @task(1)
+    def get_resources_with_query(self):
+        # GET /resources?type=server (edge: query param, should return 200 or 404 if not supported)
+        self.client.get("/resources?type=server", headers=self.common_headers, name="/resources?type=server", catch_response=True)
