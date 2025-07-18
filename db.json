@@ -1,0 +1,51 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Alice",
+      "job": "developer"
+    },
+    {
+      "id": "2",
+      "name": "Bob",
+      "job": "tester"
+    },
+    {
+      "id": "1717",
+      "name": "PerfGuard Bot",
+      "job": "performance-tester"
+    },
+    {
+      "id": "b94e",
+      "name": "PerfGuard Bot",
+      "job": "performance-tester"
+    },
+    {
+      "id": "96c3",
+      "name": "PerfGuard Bot",
+      "job": "performance-tester"
+    },
+    {
+      "id": "8f70",
+      "name": "PerfGuard Bot",
+      "job": "performance-tester"
+    },
+    {
+      "id": "0d98",
+      "name": "PerfGuard Bot",
+      "job": "performance-tester"
+    }
+  ],
+  "resources": [
+    {
+      "id": "1",
+      "name": "Resource One",
+      "type": "typeA"
+    },
+    {
+      "id": "2",
+      "name": "Resource Two",
+      "type": "typeB"
+    }
+  ]
+}

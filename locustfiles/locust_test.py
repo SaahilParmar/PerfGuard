@@ -10,31 +10,48 @@ try:
 except KeyError as e:
     raise KeyError(f"Missing required config key: {e}")
 
-# Convert endpoints list to a dict for easy access by name and method, and ensure no trailing slashes
-def get_endpoint(endpoints, method, path_contains):
-    path = next((ep["path"] for ep in endpoints if ep["method"] == method and path_contains in ep["path"]), None)
-    if path and path.endswith("/"):
-        path = path.rstrip("/")
-    return path
-
 ENDPOINTS = {
-    "user_list": get_endpoint(endpoints_list, "GET", "/api/users"),
-    "single_user": get_endpoint(endpoints_list, "GET", "/api/users/2"),
-    "create_user": get_endpoint(endpoints_list, "POST", "/api/users"),
+    # Use local json-server endpoints
+    "user_list": "/users",           # GET /users
+    "single_user": "/users/1",       # GET /users/1
+    "resource_list": "/resources",   # GET /resources
+    "single_resource": "/resources/2", # GET /resources/2
+    "create_user": "/users"
 }
 
 class PerfGuardUser(HttpUser):
     wait_time = between(1, 3)  # Simulates user wait time between tasks
 
 
+
+    def on_start(self):
+        # No API key needed for local json-server
+        self.common_headers = {
+            "Content-Type": "application/json"
+        }
+        self.client.get("/", headers=self.common_headers, name="/")
+
+
+
     @task(2)
     def get_user_list(self):
-        # Use /api/users?page=2 for reqres.in demo API
-        self.client.get(f"{ENDPOINTS['user_list']}?page=2", name="/api/users?page=2")
+        # GET /users
+        self.client.get(ENDPOINTS['user_list'], headers=self.common_headers, name="/users")
 
     @task(1)
     def get_single_user(self):
-        self.client.get(ENDPOINTS["single_user"], name="/api/users/2")
+        # GET /users/1
+        self.client.get(ENDPOINTS["single_user"], headers=self.common_headers, name="/users/1")
+
+    @task(1)
+    def get_resource_list(self):
+        # GET /resources
+        self.client.get(ENDPOINTS['resource_list'], headers=self.common_headers, name="/resources")
+
+    @task(1)
+    def get_single_resource(self):
+        # GET /resources/2
+        self.client.get(ENDPOINTS["single_resource"], headers=self.common_headers, name="/resources/2")
 
     @task(1)
     def post_new_user(self):
@@ -42,13 +59,8 @@ class PerfGuardUser(HttpUser):
             "name": "PerfGuard Bot",
             "job": "performance-tester"
         }
-        headers = {"Content-Type": "application/json"}
-        # reqres.in expects name and job for POST /api/users
-        self.client.post(ENDPOINTS["create_user"], json=payload, headers=headers, name="/api/users")
-
-    def on_start(self):
-        # Optional: Called when a simulated user starts
-        self.client.get("/", name="/")
+        # POST /users
+        self.client.post(ENDPOINTS["create_user"], json=payload, headers=self.common_headers, name="/users")
 
     def on_stop(self):
         # Optional: Called when a simulated user stops
