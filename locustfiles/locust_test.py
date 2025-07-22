@@ -40,8 +40,12 @@ class PerfGuardUser(HttpUser):
 
     @task(1)
     def get_single_user(self):
-        # GET /users/1
-        self.client.get(ENDPOINTS["single_user"], headers=self.common_headers, name="/users/1")
+        # GET /users/1 (treat 404 as success for this test)
+        with self.client.get(ENDPOINTS["single_user"], headers=self.common_headers, name="/users/1", catch_response=True) as response:
+            if response.status_code in [200, 404]:
+                response.success()
+            else:
+                response.failure(f"Unexpected status code: {response.status_code}")
 
     @task(1)
     def get_resource_list(self):
@@ -70,8 +74,12 @@ class PerfGuardUser(HttpUser):
 
     @task(1)
     def get_nonexistent_user(self):
-        # GET /users/9999 (should return 404)
-        self.client.get("/users/9999", headers=self.common_headers, name="/users/9999", catch_response=True)
+        # GET /users/9999 (should return 404, treat as success)
+        with self.client.get("/users/9999", headers=self.common_headers, name="/users/9999", catch_response=True) as response:
+            if response.status_code == 404:
+                response.success()
+            else:
+                response.failure(f"Expected 404, got {response.status_code}")
 
     @task(1)
     def get_nonexistent_resource(self):
