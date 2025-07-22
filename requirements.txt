@@ -1,8 +1,16 @@
+
 # Core load testing tool
-locust==2.25.0
+locust==2.37.14
+
 
 # YAML configuration file parsing
-pyyaml==6.0.1
+pyyaml==6.0.2
+# Data analysis (dependency for some Locust features)
+pandas==2.3.1
+# Rich text formatting for CLI output (used by Locust)
+rich==14.0.0
+# Zope event system (dependency for Locust)
+zope.event==5.1.1
 
 # Testing framework
 pytest==8.4.1
